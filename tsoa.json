@@ -1,0 +1,38 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/controllers/**/*Controller.ts"],
+  "modelPathGlobs": ["src/dto/**/*.ts", "src/models/**/*.ts"],
+  "spec": {
+    "outputDirectory": "./src/config",
+    "specVersion": 3,
+    "basePath": "/api",
+    "spec": {
+      "openapi": "3.0.0",
+      "info": {
+        "title": "Notes API",
+        "version": "1.0.0",
+        "description": "A RESTful API for note-taking with user authentication, versioning, and full-text search"
+      },
+      "servers": [
+        {
+          "url": "http://localhost:8080/api",
+          "description": "Development server"
+        }
+      ],
+      "components": {
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "./src/routes/generated",
+    "authenticationModule": "./src/middleware/tsoaAuthMiddleware"
+  }
+}

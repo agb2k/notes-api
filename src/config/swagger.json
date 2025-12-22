@@ -1,0 +1,1177 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		},
+		"schemas": {
+			"NoteCategory": {},
+			"CategoryType": {
+				"$ref": "#/components/schemas/NoteCategory"
+			},
+			"NoteResponse": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"content": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"category": {
+						"$ref": "#/components/schemas/CategoryType",
+						"nullable": true
+					},
+					"version": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"content",
+					"userId",
+					"version",
+					"createdAt",
+					"updatedAt"
+				]
+			},
+			"SharePermission": {},
+			"ShareInfo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"noteId": {
+						"type": "string"
+					},
+					"sharedWithUserId": {
+						"type": "string"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/SharePermission"
+					},
+					"sharedByUserId": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"noteId",
+					"sharedWithUserId",
+					"permission",
+					"sharedByUserId",
+					"createdAt"
+				]
+			},
+			"ShareNoteResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"share": {
+						"$ref": "#/components/schemas/ShareInfo"
+					}
+				},
+				"required": [
+					"message"
+				]
+			},
+			"ShareNoteDTO": {
+				"type": "object",
+				"properties": {
+					"userId": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/SharePermission"
+					}
+				},
+				"required": [
+					"permission"
+				]
+			},
+			"UnshareNoteResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				]
+			},
+			"SharedNotesResponse": {
+				"type": "object",
+				"properties": {
+					"notes": {
+						"type": "array",
+						"items": {}
+					}
+				},
+				"required": [
+					"notes"
+				]
+			},
+			"ShareUserInfo": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/SharePermission"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"permission",
+					"createdAt"
+				]
+			},
+			"NoteSharesResponse": {
+				"type": "object",
+				"properties": {
+					"shares": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/ShareUserInfo"
+						}
+					}
+				},
+				"required": [
+					"shares"
+				]
+			},
+			"NoteListResponse": {
+				"type": "object",
+				"properties": {
+					"notes": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/NoteResponse"
+						}
+					}
+				},
+				"required": [
+					"notes"
+				]
+			},
+			"CreateNoteResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"note": {
+						"$ref": "#/components/schemas/NoteResponse"
+					}
+				},
+				"required": [
+					"message",
+					"note"
+				]
+			},
+			"CreateNoteDTO": {
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "string"
+					},
+					"category": {
+						"$ref": "#/components/schemas/CategoryType"
+					}
+				},
+				"required": [
+					"content"
+				]
+			},
+			"GetNoteResponse": {
+				"type": "object",
+				"properties": {
+					"note": {
+						"$ref": "#/components/schemas/NoteResponse"
+					}
+				},
+				"required": [
+					"note"
+				]
+			},
+			"UpdateNoteResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"note": {
+						"$ref": "#/components/schemas/NoteResponse"
+					}
+				},
+				"required": [
+					"message",
+					"note"
+				]
+			},
+			"UpdateNoteDTO": {
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "string"
+					},
+					"category": {
+						"$ref": "#/components/schemas/CategoryType"
+					},
+					"expectedVersion": {
+						"type": "number",
+						"format": "double"
+					}
+				}
+			},
+			"DeleteNoteResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				]
+			},
+			"RegisterResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"userId"
+				]
+			},
+			"RegisterDTO": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				]
+			},
+			"LoginResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"accessToken": {
+						"type": "string"
+					},
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"accessToken",
+					"refreshToken"
+				]
+			},
+			"LoginDTO": {
+				"type": "object",
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username",
+					"password"
+				]
+			}
+		}
+	},
+	"info": {
+		"title": "Notes API",
+		"version": "1.0.0",
+		"description": "A RESTful API for note-taking with user authentication, versioning, and full-text search"
+	},
+	"paths": {
+		"/notes/{noteId}/versions": {
+			"get": {
+				"operationId": "GetNoteVersions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"versions": {
+											"items": {},
+											"type": "array"
+										}
+									},
+									"required": [
+										"versions"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Retrieves all versions of a note, ordered by version number (newest first)",
+				"tags": [
+					"Versions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notes/{noteId}/revert/{versionNumber}": {
+			"post": {
+				"operationId": "RevertToVersion",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"revertedFromVersion": {
+											"type": "number",
+											"format": "double"
+										},
+										"note": {
+											"$ref": "#/components/schemas/NoteResponse"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"revertedFromVersion",
+										"note",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Reverts a note to a specific version number",
+				"tags": [
+					"Versions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "versionNumber",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/notes/{noteId}/share": {
+			"post": {
+				"operationId": "ShareNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ShareNoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Shares a note with another user",
+				"tags": [
+					"Sharing"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ShareNoteDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/notes/{noteId}/share/{userId}": {
+			"delete": {
+				"operationId": "UnshareNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UnshareNoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Removes a share from a note",
+				"tags": [
+					"Sharing"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notes/shared": {
+			"get": {
+				"operationId": "GetSharedNotes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SharedNotesResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Gets all notes shared with the authenticated user",
+				"tags": [
+					"Sharing"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/notes/{noteId}/shares": {
+			"get": {
+				"operationId": "GetNoteShares",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NoteSharesResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Gets all users a note is shared with",
+				"tags": [
+					"Sharing"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notes/search": {
+			"get": {
+				"operationId": "SearchNotes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NoteListResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Searches notes using full-text search",
+				"tags": [
+					"Search"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "keywords",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notes": {
+			"post": {
+				"operationId": "CreateNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateNoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Creates a new note for the authenticated user",
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateNoteDTO"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListNotes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NoteListResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Lists all notes for the authenticated user (owned + shared)",
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/notes/{noteId}": {
+			"get": {
+				"operationId": "GetNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetNoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Retrieves a specific note by ID for the authenticated user",
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateNoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Updates a note with optimistic locking support",
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateNoteDTO"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteNote",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DeleteNoteResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Soft deletes a note (marks with deletedAt timestamp)",
+				"tags": [
+					"Notes"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/register": {
+			"post": {
+				"operationId": "RegisterUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RegisterResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Registers a new user account",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/login": {
+			"post": {
+				"operationId": "LoginUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Authenticates a user and returns both JWT access token and refresh token",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginDTO"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "RefreshAccessToken",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"accessToken": {
+											"type": "string"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"accessToken",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Refreshes an access token using a valid refresh token",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Logs out a user by revoking their refresh token",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"refreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"refreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/notes/{noteId}/attachments": {
+			"post": {
+				"operationId": "UploadAttachment",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"attachment": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"attachment",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Uploads a file attachment for a note",
+				"tags": [
+					"Attachments"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"file"
+								]
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAttachments",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"attachments": {
+											"items": {},
+											"type": "array"
+										}
+									},
+									"required": [
+										"attachments"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Gets all attachments for a note",
+				"tags": [
+					"Attachments"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "noteId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/attachments/{attachmentId}/download": {
+			"get": {
+				"operationId": "DownloadAttachment",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Downloads an attachment file",
+				"tags": [
+					"Attachments"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attachmentId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/attachments/{attachmentId}": {
+			"delete": {
+				"operationId": "DeleteAttachment",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Deletes an attachment",
+				"tags": [
+					"Attachments"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "attachmentId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api",
+			"description": "Development server"
+		}
+	]
+}
